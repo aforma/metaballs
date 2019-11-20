@@ -25,17 +25,17 @@ const sketch = ({ gl, update, render, pause }) => {
   
   var metaballs = [];
   
-  for (var i = 0; i < 5; i++) {
-    var radius = 6;
+  for (var i = 0; i < 10; i++) {
+    var radius = 1;
     metaballs.push({
       x: Math.random() * (6 - 2 * radius) + radius,
       y: Math.random() * (8.4 - 2 * radius) + radius,
-      r: radius * 100
+      r: radius
     });
   }
   
   const metabbalsUniform = {};
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     let mb = metaballs[i];
     metabbalsUniform[`metaballs[${i}]`] = new Float32Array(3);
     metabbalsUniform[`metaballs[${i}]`][0] = mb.x;

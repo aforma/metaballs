@@ -8,11 +8,12 @@ void main() {
 
   for (int i = 0; i < 5; i++) {
     vec3 mb = metaballs[i];
-    float dx = mb.x - x;
-    float dy = mb.y - y;
+    float dx = mb.x - x * 5.0;
+    float dy = mb.y - y * 5.0;
     float r = mb.z;
     if (dx * dx + dy * dy < r * r) {
       gl_FragColor = vec4(x, y, 0.0, 1.0);
+      return;
     }
   }
 
