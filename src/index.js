@@ -18,24 +18,31 @@ const settings = {
   }
 };
 
+const NUM_METABALLS = 50;
+const WIDTH = 1;
+const HEIGHT = 1;
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 // Artwork function
 const sketch = ({ gl, update, render, pause }) => {
-  const dataToSendToGPU = [];
   const regl = createRegl({ gl });
   
   var metaballs = [];
   
-  for (var i = 0; i < 10; i++) {
-    var radius = 1;
+  for (var i = 0; i < NUM_METABALLS; i++) {
+    var radius = 0.1;
     metaballs.push({
-      x: Math.random() * (6 - 2 * radius) + radius,
-      y: Math.random() * (8.4 - 2 * radius) + radius,
+      x: getRandomArbitrary(-WIDTH / 2, WIDTH / 2),
+      y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
       r: radius
     });
   }
   
   const metabbalsUniform = {};
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < NUM_METABALLS; i++) {
     let mb = metaballs[i];
     metabbalsUniform[`metaballs[${i}]`] = new Float32Array(3);
     metabbalsUniform[`metaballs[${i}]`][0] = mb.x;
@@ -52,7 +59,7 @@ const sketch = ({ gl, update, render, pause }) => {
     regl.clear({
       color: [0, 0, 1, 1]
     });
-    quad({ x: -3, y: -4.2, width: 6, height: 8.4, ...metabbalsUniform });
+    quad({ x: -0.5, y: -0.5, width: WIDTH, height: HEIGHT, ...metabbalsUniform });
   };
 };
 

@@ -34,17 +34,6 @@ module.exports = function({ frag, vert, metaballs }) {
       width: (context, { width }) => width,
       height: (context, { height }) => height,
       ...metaballs,
-      view: ({ tick }) => {
-        return mat4.lookAt([], [0, 0, 10], [0, 0, 0], [0, 1, 0]);
-      },
-      projection: ({ viewportWidth, viewportHeight }) =>
-        mat4.perspective(
-          [],
-          Math.PI / 4,
-          viewportWidth / viewportHeight,
-          0.01,
-          1000
-        )
     },
     depth: { enable: false },
     count: 6

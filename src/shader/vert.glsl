@@ -6,7 +6,7 @@ uniform float height;
 uniform float size;
 varying vec2 uv;
 void main() {
-  uv.x = position.x / width + 0.5;
-  uv.y = position.y / height + 0.5;
-  gl_Position = projection * view * vec4(position, 1);
+  uv.x = position.x;
+  uv.y = position.y;
+  gl_Position = vec4(position, 1);
 }
