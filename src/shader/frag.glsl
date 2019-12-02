@@ -1,13 +1,13 @@
 precision mediump float;
 varying vec2 uv;
-uniform vec3 metaballs[50];
+uniform vec3 metaballs[20];
 
 void main() {
   float x = uv.x;
   float y = uv.y;
   float v = 0.0;
 
-  for (int i = 0; i < 50; i++) {
+  for (int i = 0; i < 20; i++) {
     vec3 mb = metaballs[i];
     float dx = mb.x - x;
     float dy = mb.y - y;

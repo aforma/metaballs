@@ -18,7 +18,7 @@ const settings = {
   }
 };
 
-const NUM_METABALLS = 50;
+const NUM_METABALLS = 20;
 const WIDTH = 6;
 const HEIGHT = 9;
 
@@ -33,15 +33,17 @@ const sketch = ({ gl, update, render, pause }) => {
   var metaballs = [];
   
   for (var i = 0; i < NUM_METABALLS; i++) {
-    var radius = 0.5 * Math.random();
+    var radius = 0.7 * Math.random();
     metaballs.push({
       x: getRandomArbitrary(-WIDTH / 2, WIDTH / 2),
       y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
+      vx: Math.random() * 0.1 - 0.05,
+      vy: Math.random() * 0.1 - 0.05,
       r: radius
     });
   }
-  
   const metabbalsUniform = {};
+  
   for (let i = 0; i < NUM_METABALLS; i++) {
     let mb = metaballs[i];
     metabbalsUniform[`metaballs[${i}]`] = new Float32Array(3);
@@ -49,17 +51,44 @@ const sketch = ({ gl, update, render, pause }) => {
     metabbalsUniform[`metaballs[${i}]`][1] = mb.y;
     metabbalsUniform[`metaballs[${i}]`][2] = mb.r;
   }
+
+  const animate = () => {
+    for (var i = 0; i < NUM_METABALLS; i++) {
+      var mb = metaballs[i];
+      mb.x += mb.vx;
+      if (mb.x - mb.r < -WIDTH / 2) {
+        mb.vx = Math.abs(mb.vx);
+      } else if (mb.x + mb.r > WIDTH / 2) {
+        mb.vx = -Math.abs(mb.vx);
+      }
+      mb.y += mb.vy;
+      if (mb.y - mb.r < -HEIGHT / 2) {
+        mb.vy = Math.abs(mb.vy);
+      } else if (mb.y + mb.r > HEIGHT / 2) {
+        mb.vy = -Math.abs(mb.vy);
+      }
+    }
+
+    for (let i = 0; i < NUM_METABALLS; i++) {
+      let mb = metaballs[i];
+      metabbalsUniform[`metaballs[${i}]`] = new Float32Array(3);
+      metabbalsUniform[`metaballs[${i}]`][0] = mb.x;
+      metabbalsUniform[`metaballs[${i}]`][1] = mb.y;
+      metabbalsUniform[`metaballs[${i}]`][2] = mb.r;
+    }
+  }
   
-  const quad = regl(createQuad({ frag, vert, metaballs: metabbalsUniform }));
-
-
+  
+  
   return () => {
     // Update regl sizes
     regl.poll();
     regl.clear({
       color: [0, 0, 1, 1]
     });
-    quad({ x: -WIDTH / 2, y: -HEIGHT / 2, width: WIDTH, height: HEIGHT, ...metabbalsUniform });
+    animate();
+    const quad = regl(createQuad({ frag, vert, metaballs: metabbalsUniform, total: NUM_METABALLS }));
+    quad({ x: -WIDTH / 2, y: -HEIGHT / 2, width: WIDTH, height: HEIGHT });
   };
 };
 
