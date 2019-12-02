@@ -19,8 +19,8 @@ const settings = {
 };
 
 const NUM_METABALLS = 50;
-const WIDTH = 1;
-const HEIGHT = 1;
+const WIDTH = 6;
+const HEIGHT = 9;
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
@@ -33,7 +33,7 @@ const sketch = ({ gl, update, render, pause }) => {
   var metaballs = [];
   
   for (var i = 0; i < NUM_METABALLS; i++) {
-    var radius = 0.1;
+    var radius = 0.5 * Math.random();
     metaballs.push({
       x: getRandomArbitrary(-WIDTH / 2, WIDTH / 2),
       y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
@@ -59,7 +59,7 @@ const sketch = ({ gl, update, render, pause }) => {
     regl.clear({
       color: [0, 0, 1, 1]
     });
-    quad({ x: -0.5, y: -0.5, width: WIDTH, height: HEIGHT, ...metabbalsUniform });
+    quad({ x: -WIDTH / 2, y: -HEIGHT / 2, width: WIDTH, height: HEIGHT, ...metabbalsUniform });
   };
 };
 
