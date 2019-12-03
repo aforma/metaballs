@@ -6,11 +6,12 @@ import vert from "./shader/vert.glsl";
 
 // Sketch parameters
 const settings = {
-  dimensions: "a3",
+  dimensions: "a4",
   pixelsPerInch: 300,
-  units: "in",
+  units: 'in',
+  duration: 5,
   context: "webgl",
-  fps: 60,
+  fps: 25,
   timeScale: 1,
   animate: true,
   attributes: {
@@ -18,7 +19,7 @@ const settings = {
   }
 };
 
-const NUM_METABALLS = 20;
+const NUM_METABALLS = 160;
 const WIDTH = 6;
 const HEIGHT = 9;
 
@@ -33,7 +34,7 @@ const sketch = ({ gl, update, render, pause }) => {
   var metaballs = [];
   
   for (var i = 0; i < NUM_METABALLS; i++) {
-    var radius = 0.7 * Math.random();
+    var radius = 0.2 * Math.random();
     metaballs.push({
       x: getRandomArbitrary(-WIDTH / 2, WIDTH / 2),
       y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
