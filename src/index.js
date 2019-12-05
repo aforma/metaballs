@@ -9,7 +9,7 @@ const settings = {
   dimensions: "a4",
   pixelsPerInch: 300,
   units: 'in',
-  duration: 5,
+  duration: 10,
   context: "webgl",
   fps: 25,
   timeScale: 1,
@@ -19,7 +19,7 @@ const settings = {
   }
 };
 
-const NUM_METABALLS = 160;
+const NUM_METABALLS = 100;
 const WIDTH = 6;
 const HEIGHT = 9;
 
@@ -36,10 +36,12 @@ const sketch = ({ gl, update, render, pause }) => {
   for (var i = 0; i < NUM_METABALLS; i++) {
     var radius = 0.2 * Math.random();
     metaballs.push({
-      x: getRandomArbitrary(-WIDTH / 2, WIDTH / 2),
+      x: getRandomArbitrary(-(WIDTH / 2) * 0.1, (WIDTH / 2) * 0.1),
       y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
-      vx: Math.random() * 0.1 - 0.05,
+      vx: 0,
       vy: Math.random() * 0.1 - 0.05,
+      speed: Math.random(),
+      speedAngle: Math.random() * Math.PI * 2,
       r: radius
     });
   }
@@ -56,10 +58,11 @@ const sketch = ({ gl, update, render, pause }) => {
   const animate = () => {
     for (var i = 0; i < NUM_METABALLS; i++) {
       var mb = metaballs[i];
-      mb.x += mb.vx;
-      if (mb.x - mb.r < -WIDTH / 2) {
+      mb.speedAngle += mb.speed * 0.01;
+      mb.x += mb.vx + Math.cos(mb.speedAngle) * 0.001;
+      if (mb.x - mb.r < -WIDTH ) {
         mb.vx = Math.abs(mb.vx);
-      } else if (mb.x + mb.r > WIDTH / 2) {
+      } else if (mb.x + mb.r > 1) {
         mb.vx = -Math.abs(mb.vx);
       }
       mb.y += mb.vy;
