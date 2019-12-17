@@ -19,7 +19,7 @@ const settings = {
   }
 };
 
-const NUM_METABALLS = 100;
+const NUM_METABALLS = 50;
 const WIDTH = 6;
 const HEIGHT = 9;
 
@@ -34,14 +34,14 @@ const sketch = ({ gl, update, render, pause }) => {
   var metaballs = [];
   
   for (var i = 0; i < NUM_METABALLS; i++) {
-    var radius = 0.2 * Math.random();
+    var radius = 0.4 * Math.random();
     metaballs.push({
       x: getRandomArbitrary(-(WIDTH / 2) * 0.1, (WIDTH / 2) * 0.1),
-      y: getRandomArbitrary(-HEIGHT / 2, HEIGHT / 2),
-      vx: 0,
+      y: getRandomArbitrary(-HEIGHT / 4, HEIGHT / 4),
+      vx: Math.random() * 0.1 - 0.05,
       vy: Math.random() * 0.1 - 0.05,
-      speed: Math.random(),
-      speedAngle: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.1,
+      speedAngle: Math.random() * Math.PI,
       r: radius
     });
   }
@@ -60,15 +60,15 @@ const sketch = ({ gl, update, render, pause }) => {
       var mb = metaballs[i];
       mb.speedAngle += mb.speed * 0.01;
       mb.x += mb.vx + Math.cos(mb.speedAngle) * 0.001;
-      if (mb.x - mb.r < -WIDTH ) {
+      if (mb.x - mb.r < -WIDTH / 6 ) {
         mb.vx = Math.abs(mb.vx);
-      } else if (mb.x + mb.r > 1) {
+      } else if (mb.x + mb.r > WIDTH / 6) {
         mb.vx = -Math.abs(mb.vx);
       }
       mb.y += mb.vy;
-      if (mb.y - mb.r < -HEIGHT / 2) {
+      if (mb.y - mb.r < -HEIGHT / 4) {
         mb.vy = Math.abs(mb.vy);
-      } else if (mb.y + mb.r > HEIGHT / 2) {
+      } else if (mb.y + mb.r > HEIGHT / 4) {
         mb.vy = -Math.abs(mb.vy);
       }
     }
